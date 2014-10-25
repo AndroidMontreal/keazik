@@ -18,6 +18,10 @@ public class ParrotCommands {
 		return ParrotProtocol.getRequest(GET_VERSION);
 	}
 
+    public byte[] getNoiseCancel(){
+        return ParrotProtocol.getRequest(GET_NOISE_CANCEL);
+    }
+
 	public byte[] getFriendlyName(){
 		return ParrotProtocol.getRequest(GET_FRIENDLY_NAME);
 	}

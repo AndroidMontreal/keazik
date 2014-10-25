@@ -52,4 +52,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/activateConcert"/>
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New ToggleButton"
+        android:id="@+id/noiseCancellationToggleButton"
+        android:layout_above="@+id/deactivateNoiseCancel"
+        android:textOff="@string/valeur_on"
+        android:textOn="Noise Activé."
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

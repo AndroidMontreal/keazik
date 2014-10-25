@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,11 +51,22 @@ public class DevFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_dev, container, false);
-		initViewsAndListeners(rootView);
+        Synchronise(rootView);
+        initViewsAndListeners(rootView);
+
 		return rootView;
 	}
+    public void Synchronise(View rootView)
+    {
+        ToggleButton  activateConcertHall3 = (ToggleButton) rootView.findViewById(R.id.noiseCancellationToggleButton);
 
-	private void initViewsAndListeners(View rootView) {
+        activateConcertHall3.setChecked(false);
+        Log.d(TAG,"Synchronise etat toogle button");
+
+    }
+
+
+    private void initViewsAndListeners(View rootView) {
 		View activateNoiseCancel = rootView.findViewById(R.id.activateNoiseCancel);
 		activateNoiseCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -86,6 +98,26 @@ public class DevFragment extends Fragment {
 				Log.d(TAG, new String(request));
 			}
 		});
+
+       ToggleButton  activateConcertHall2 = (ToggleButton) rootView.findViewById(R.id.noiseCancellationToggleButton);
+       activateConcertHall2.setTextOff("Off en runtime");
+       activateConcertHall2.setTextOn("On en runtime");
+        activateConcertHall2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean on = ((ToggleButton) v).isChecked();
+                byte[] request;
+
+                if (on) {
+                    request = ParrotCommands.setSoundEffectEnabled("true");
+                } else {
+                    request = ParrotCommands.setSoundEffectEnabled("false");
+                }
+                bluetoothZikService.write(request);
+                Log.d(TAG, new String(request));
+                //TODO : devrait faire appel à une methode du BT Service quand elle sera implémentée
+                            }
+        });
 
 		View deactivateConcertHall = rootView.findViewById(R.id.deactivateConcert);
 		deactivateConcertHall.setOnClickListener(new View.OnClickListener() {
