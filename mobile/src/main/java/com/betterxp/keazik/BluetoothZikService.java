@@ -181,14 +181,12 @@ public class BluetoothZikService {
 	}
 
 	private class InitBtAsyncTask extends AsyncTask<Void,Void,Void> {
-
 		@Override
 		protected Void doInBackground(Void... params) {
 			startConnectedThread();
 			return null;
 		}
 	}
-
 
 }
 

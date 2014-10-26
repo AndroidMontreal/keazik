@@ -14,6 +14,9 @@
     <string name="activate">activate</string>
     <string name="deactivate">deactivate</string>
     <string name="concert">concert Hall</string>
-    <string name="valeur_on">Noise désactivé.</string>
+    <string name="noise_cancel_on">Noise activé</string>
+    <string name="noise_cancel_off">Noise désactivé</string>
+    <string name="concert_hall_on">ConcertHall Activé</string>
+    <string name="concert_hall_off">ConcertHall désactivé</string>
 
 </resources>

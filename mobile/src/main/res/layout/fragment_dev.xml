@@ -14,52 +14,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/activateNoiseCancel"
-        android:text="@string/activate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/noiseTV"
-        android:layout_marginTop="20dp"
-        />
-    <Button
-        android:id="@+id/deactivateNoiseCancel"
-        android:text="@string/deactivate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/activateNoiseCancel"/>
-    <TextView
-        android:id="@+id/concertTV"
-        android:text="@string/concert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/deactivateNoiseCancel"
-
-        android:layout_marginTop="40dp"
-        />
-
-    <Button
-        android:id="@+id/activateConcert"
-        android:text="@string/activate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/concertTV"
-        android:layout_marginTop="20dp"
-        />
-    <Button
-        android:id="@+id/deactivateConcert"
-        android:text="@string/deactivate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/activateConcert"/>
-
     <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New ToggleButton"
         android:id="@+id/noiseCancellationToggleButton"
-        android:layout_above="@+id/deactivateNoiseCancel"
-        android:textOff="@string/valeur_on"
+        android:textOff="@string/noise_cancel_off"
+        android:textOn="@string/noise_cancel_on"
+        android:layout_below="@id/noiseTV"
+        />
+
+    <TextView
+        android:id="@+id/concertTV"
+        android:text="@string/concert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_below="@id/noiseCancellationToggleButton"
+        />
+
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New ToggleButton"
+        android:id="@+id/concertHallToggleButton"
+        android:textOff="@string/concert_hall_off"
         android:textOn="Noise Activé."
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@id/concertTV"
+        />
+
 </RelativeLayout>

@@ -14,11 +14,11 @@ public class ParrotCommands {
 	public static final String API_AUDIO_NOISE_CANCELLATION_ENABLED_SET = "/api/audio/noise_cancellation/enabled/set";
 
 
-	public byte[] getVersion(){
+	public static byte[] getVersion(){
 		return ParrotProtocol.getRequest(GET_VERSION);
 	}
 
-    public byte[] getNoiseCancel(){
+    public static byte[] getNoiseCancelStateCommand(){
         return ParrotProtocol.getRequest(GET_NOISE_CANCEL);
     }
 
