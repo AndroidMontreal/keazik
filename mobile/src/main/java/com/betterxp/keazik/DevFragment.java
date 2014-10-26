@@ -61,7 +61,7 @@ public class DevFragment extends Fragment {
 
 
 	@Subscribe
-	public void onTestEvent(BlueToothConnectedThreadEvent event) {
+	public void onBTConnectedThread(BlueToothConnectedThreadEvent event) {
 		Toast.makeText(getActivity(), "thread connected", Toast.LENGTH_SHORT).show();
 		synchroniseHeadsetState();
 	}

@@ -184,14 +184,13 @@ public class BluetoothZikService {
 	private class InitBtAsyncTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			boolean b = startConnectedThread();
-			return b;
+			return startConnectedThread();
 		}
 
 		@Override
-		protected void onPostExecute(Boolean aBoolean) {
-			super.onPostExecute(aBoolean);
-			if(aBoolean) {
+		protected void onPostExecute(Boolean isConnectedThreadInitialised) {
+			super.onPostExecute(isConnectedThreadInitialised);
+			if(isConnectedThreadInitialised) {
 				BaseApplication.getEventBus().post(new BlueToothConnectedThreadEvent());
 			}
 		}
