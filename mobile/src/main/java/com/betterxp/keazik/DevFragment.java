@@ -9,7 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import android.widget.ToggleButton;
+import com.betterxp.keazik.bus.event.BlueToothConnectedThreadEvent;
+import com.squareup.otto.Subscribe;
 
 /*
 Ne devrait comporter de que MAJ UI
@@ -30,10 +33,13 @@ public class DevFragment extends Fragment {
 		}
 	};
 	private BluetoothZikService bluetoothZikService;
+	private ToggleButton noiseCancelToggleButton;
+	private ToggleButton concertHallToggleButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		BaseApplication.getEventBus().register(this);
 		bluetoothZikService = new BluetoothZikService(getActivity(), messageHandler);
 	}
 
@@ -41,16 +47,35 @@ public class DevFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_dev, container, false);
 		initViewsAndListeners(rootView);
-		Synchronise(rootView);
 		return rootView;
 	}
 
-	public void Synchronise(View rootView) {
-		Log.d(TAG, "Synchronise etat toggle button");
-		getHeadsetNoiseCancelState();
-		ToggleButton noiseCancelToggleButton = (ToggleButton) rootView.findViewById(R.id.noiseCancellationToggleButton);
-		noiseCancelToggleButton.setChecked(false);
+	@Override
+	public void onResume() {
+		super.onResume();
+		bluetoothZikService.initConnection();
+//		synchroniseHeadsetState();
 
+		Log.d(TAG, "DevFragment : onResume");
+	}
+
+
+	@Subscribe
+	public void onTestEvent(BlueToothConnectedThreadEvent event) {
+		Toast.makeText(getActivity(), "thread connected", Toast.LENGTH_SHORT).show();
+		synchroniseHeadsetState();
+	}
+
+	@Override
+	public void onPause() {
+		bluetoothZikService.stopConnection();
+		super.onPause();
+	}
+
+	public void synchroniseHeadsetState() {
+		Log.d(TAG, "synchroniseHeadsetState etat toggle button");
+		getHeadsetNoiseCancelState();
+		noiseCancelToggleButton.setChecked(false);
 	}
 
 	private void getHeadsetNoiseCancelState() {
@@ -60,7 +85,7 @@ public class DevFragment extends Fragment {
 
 	private void initViewsAndListeners(View rootView) {
 
-		ToggleButton noiseCancelToggleButton = (ToggleButton) rootView.findViewById(R.id.noiseCancellationToggleButton);
+		noiseCancelToggleButton = (ToggleButton) rootView.findViewById(R.id.noiseCancellationToggleButton);
 		noiseCancelToggleButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -77,7 +102,7 @@ public class DevFragment extends Fragment {
 			}
 		});
 
-		ToggleButton concertHallToggleButton = (ToggleButton) rootView.findViewById(R.id.concertHallToggleButton);
+		concertHallToggleButton = (ToggleButton) rootView.findViewById(R.id.concertHallToggleButton);
 		concertHallToggleButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -94,19 +119,6 @@ public class DevFragment extends Fragment {
 			}
 		});
 
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		bluetoothZikService.initConnection();
-		Log.d(TAG, "DevFragment : onResume");
-	}
-
-	@Override
-	public void onPause() {
-		bluetoothZikService.stopConnection();
-		super.onPause();
 	}
 
 }

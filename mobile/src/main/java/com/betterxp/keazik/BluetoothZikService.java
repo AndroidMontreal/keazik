@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
+import com.betterxp.keazik.bus.event.BlueToothConnectedThreadEvent;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +42,7 @@ public class BluetoothZikService {
 		stopConnectedThread();
 	}
 
-	private void startConnectedThread() {
+	private boolean startConnectedThread() {
 		Log.d(TAG, "startConnectedThread()");
 		if (bluetoothAdapter != null && bluetoothAdapter.isEnabled()) {
 			BluetoothDevice device = getDevice();
@@ -49,17 +50,17 @@ public class BluetoothZikService {
 
 				startClientSocket(device);
 				if(transferSocket != null && messageHandler != null) {
-
 					connectedThread = new ConnectedThread(transferSocket, messageHandler);
 					connectedThread.start();
 					if(connectedThread.isAlive()) {
 						byte[] firstMessage = {0x00, 0x03, 0x00};
 						connectedThread.write(firstMessage);
+						return true;
 					}
 				}
 			}
-
 		}
+		return false;
 	}
 
 	private void startClientSocket(BluetoothDevice device) {
@@ -180,11 +181,19 @@ public class BluetoothZikService {
 		}
 	}
 
-	private class InitBtAsyncTask extends AsyncTask<Void,Void,Void> {
+	private class InitBtAsyncTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
-		protected Void doInBackground(Void... params) {
-			startConnectedThread();
-			return null;
+		protected Boolean doInBackground(Void... params) {
+			boolean b = startConnectedThread();
+			return b;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean aBoolean) {
+			super.onPostExecute(aBoolean);
+			if(aBoolean) {
+				BaseApplication.getEventBus().post(new BlueToothConnectedThreadEvent());
+			}
 		}
 	}
 
